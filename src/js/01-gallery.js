@@ -23,27 +23,8 @@ galleryItems.forEach(image => {
   galleryEl.appendChild(galleryItemEl);
 });
 
-galleryEl.addEventListener('click', openLargeImage);
-let modalEl;
-function openLargeImage(event) {
-  event.preventDefault();
-  if (event.target.classList.contains('gallery__image')) {
-    const imageSource = event.target.dataset.source;
-    modalEl = new SimpleLightbox(
-      `<img src="${imageSource}" alt="${event.target.alt}" />`
-    );
-    modalEl.open();
-    modalEl.show();
-    window.addEventListener('keydown', closeModal);
-    document.addEventListener('click', closeModal);
-  }
-}
-
-function closeModal(e) {
-  if (modalEl && (e.key === 'Escape' || e.target === modalEl.element())) {
-    modalEl.close();
-
-    window.removeEventListener('keydown', closeModal);
-    document.removeEventListener('click', closeModal);
-  }
-}
+const galleryHandler = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+galleryHandler.on('show.simplelightbox');
